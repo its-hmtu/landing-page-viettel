@@ -3,7 +3,7 @@ import "./globals.scss";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import ButtonToTop from "@/components/ui/button-to-top";
-import Chat from "./components/chat";
+// import Chat from "./components/chat";
 import ContacNow from "./components/contac-now";
 import Script from "next/script";
 
