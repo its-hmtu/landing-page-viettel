@@ -5,7 +5,8 @@ import Footer from "@/components/footer";
 import ButtonToTop from "@/components/ui/button-to-top";
 // import Chat from "./components/chat";
 import ContacNow from "./components/contac-now";
-import Script from "next/script";
+// import Script from "next/script";
+import Head from "next/head";
 
 export default function RootLayout({
   children,
@@ -15,10 +16,9 @@ export default function RootLayout({
   const gtmId = 'GTM-M7CJMKX6';
   return (
     <html lang="en">
-      <body className="antialiased max-w-[100dvw] overflow-x-hidden">
-        <Script
-          id="gtm-script"
-          strategy="afterInteractive"
+      <Head>
+        {/* Google Tag Manager */}
+        <script
           dangerouslySetInnerHTML={{
             __html: `<!-- Google Tag Manager -->
             <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -29,6 +29,9 @@ export default function RootLayout({
             <!-- End Google Tag Manager -->`,
           }}
         />
+      </Head>
+      <body className="antialiased max-w-[100dvw] overflow-x-hidden">
+        
         {/* <Chat /> */}
         <noscript>
           <iframe
