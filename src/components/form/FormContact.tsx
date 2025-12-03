@@ -20,7 +20,7 @@ function FormContact() {
     if (!name.trim() || !email.trim() || !phone.trim()) {
       return null;
     }
-    const mailtoLink = `mailto:cskh@viettel.com.vn?subject=Contact Form Submission&body=Name: ${name}%0D%0AEmail: ${email}%0D%0APhone: ${phone}`;
+    const mailtoLink = `mailto:tu.hoangminh15@gmail.com?subject=Contact Form Submission&body=Name: ${name}%0D%0AEmail: ${email}%0D%0APhone: ${phone}`;
     window.location.href = mailtoLink;
   };
 
