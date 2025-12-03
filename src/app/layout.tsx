@@ -8,7 +8,7 @@ import ContacNow from "./components/contac-now";
 // import Script from "next/script";
 import {
   GoogleTagManager,
-  GoogleAnalytics,
+  // GoogleAnalytics,
 } from '@next/third-parties/google';
 export default function RootLayout({
   children,
