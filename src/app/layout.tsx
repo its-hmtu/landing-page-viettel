@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <GoogleTagManager gtmId={gtmId} />
-      <GoogleAnalytics gaId="G-RM0TQVESV0" />
+      {/* <GoogleAnalytics gaId="G-RM0TQVESV0" /> */}
       <body className="antialiased max-w-[100dvw] overflow-x-hidden">
         {/* <Chat /> */}
         <Header />
