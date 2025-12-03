@@ -15,7 +15,7 @@ export default function RootLayout({
   const gtmId = 'GTM-M7CJMKX6';
   return (
     <html lang="en">
-      <head>
+      <body className="antialiased max-w-[100dvw] overflow-x-hidden">
         <Script
           id="gtm-script"
           strategy="afterInteractive"
@@ -29,8 +29,6 @@ export default function RootLayout({
             <!-- End Google Tag Manager -->`,
           }}
         />
-      </head>
-      <body className="antialiased max-w-[100dvw] overflow-x-hidden">
         {/* <Chat /> */}
         <noscript>
           <iframe
