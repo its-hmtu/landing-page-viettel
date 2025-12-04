@@ -5,6 +5,10 @@ declare global {
     dataLayer: any[];
     gtag?: (...args: any[]) => void;
     fbq?: (...args: any[]) => void;
+    ttq?: {
+      track: (eventName: string, eventParams?: Record<string, any>) => void;
+      page: () => void;
+    };
   }
 }
 

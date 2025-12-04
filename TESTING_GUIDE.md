@@ -15,6 +15,8 @@ GTM Event pushed: {event: "form_submission", form_name: "Landing Page Contact Fo
 GA4 Event sent: form_submit {...}
 Meta Pixel Event sent: Contact {...}
 Meta Pixel Event sent: Lead {...}
+TikTok Pixel Event sent: SubmitForm {...}
+TikTok Pixel Event sent: Contact {...}
 ```
 
 ### 2. Verify dataLayer in Console
@@ -58,6 +60,8 @@ Install the [Meta Pixel Helper](https://chrome.google.com/webstore/detail/meta-p
 | `form_submit` | GA4 | Form successfully submitted |
 | `Contact` | Meta Pixel | Form successfully submitted |
 | `Lead` | Meta Pixel | Form successfully submitted |
+| `SubmitForm` | TikTok Pixel | Form successfully submitted |
+| `Contact` | TikTok Pixel | Form successfully submitted |
 
 ## Troubleshooting
 
@@ -78,4 +82,10 @@ Install the [Meta Pixel Helper](https://chrome.google.com/webstore/detail/meta-p
 - Verify Meta Pixel base code is installed
 - Check if `window.fbq` exists in console
 - Ensure Pixel ID is correct
+
+**TikTok Pixel not tracking:**
+- Verify TikTok Pixel base code is installed in GTM
+- Check if `window.ttq` exists in console
+- Ensure TikTok Pixel ID is correct
+- Verify pixel is published in TikTok Events Manager
 

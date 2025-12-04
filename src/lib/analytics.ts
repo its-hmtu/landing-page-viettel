@@ -36,6 +36,18 @@ export const sendMetaPixelEvent = (eventName: string, eventParams: Record<string
 };
 
 /**
+ * Send event to TikTok Pixel
+ * @param eventName - Name of the event
+ * @param eventParams - Event parameters
+ */
+export const sendTikTokPixelEvent = (eventName: string, eventParams: Record<string, any> = {}) => {
+  if (typeof window !== 'undefined' && window.ttq) {
+    window.ttq.track(eventName, eventParams);
+    console.log('TikTok Pixel Event sent:', eventName, eventParams);
+  }
+};
+
+/**
  * Track contact form submission across all platforms
  * @param formData - Contact form data
  * @param formName - Name identifier for the form
@@ -67,6 +79,17 @@ export const trackContactFormSubmission = (formData: ContactFormData, formName: 
 
   // Also send standard Lead event for Meta Pixel
   sendMetaPixelEvent('Lead', {
+    content_name: formName,
+  });
+
+  // 4. Send to TikTok Pixel
+  sendTikTokPixelEvent('SubmitForm', {
+    content_name: formName,
+    content_type: 'contact_form',
+  });
+
+  // Also send Contact event for TikTok Pixel
+  sendTikTokPixelEvent('Contact', {
     content_name: formName,
   });
 };

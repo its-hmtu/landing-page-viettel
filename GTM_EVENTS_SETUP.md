@@ -5,6 +5,7 @@ This document describes the custom event tracking implemented for the contact fo
 - **Google Tag Manager (GTM)**
 - **Google Analytics 4 (GA4)**
 - **Meta Pixel (Facebook Pixel)**
+- **TikTok Pixel**
 
 ## Events Implemented
 
@@ -199,6 +200,60 @@ To track these in GTM as well:
 
 ---
 
+## TikTok Pixel Setup
+
+### Step 1: Install TikTok Pixel Base Code
+
+1. Go to **Tags** → **New**
+2. **Tag Type:** Custom HTML
+3. **HTML:**
+```html
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=i+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+  ttq.load('YOUR_TIKTOK_PIXEL_ID');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+```
+4. Replace `YOUR_TIKTOK_PIXEL_ID` with your actual TikTok Pixel ID
+5. **Triggering:** All Pages
+6. **Name:** `TikTok Pixel - Base Code`
+
+### Step 2: Create TikTok Pixel Event Tags
+
+#### Tag: TikTok Pixel - Form Submit Event
+1. Go to **Tags** → **New**
+2. **Tag Type:** Custom HTML
+3. **HTML:**
+```html
+<script>
+  ttq.track('SubmitForm', {
+    content_name: '{{DLV - Form Name}}',
+    content_type: 'contact_form'
+  });
+</script>
+```
+4. **Triggering:** `CE - Form Submission`
+5. **Name:** `TikTok Pixel - Submit Form`
+
+#### Tag: TikTok Pixel - Generate Lead Event
+1. Go to **Tags** → **New**
+2. **Tag Type:** Custom HTML
+3. **HTML:**
+```html
+<script>
+  ttq.track('Contact', {
+    content_name: '{{DLV - Form Name}}'
+  });
+</script>
+```
+4. **Triggering:** `CE - Form Submission`
+5. **Name:** `TikTok Pixel - Contact`
+
+---
+
 ## Testing Your Setup
 
 ### 1. Test in Preview Mode
@@ -216,6 +271,7 @@ Open the browser console (F12) and check for these logs:
 - "GTM Event pushed:" when events are sent
 - "GA4 Event sent:" when GA4 events are sent
 - "Meta Pixel Event sent:" when Meta Pixel events are sent
+- "TikTok Pixel Event sent:" when TikTok events are sent
 
 ### 3. Test in GA4 Real-Time Reports
 
@@ -231,6 +287,14 @@ Open the browser console (F12) and check for these logs:
 3. Submit the form
 4. The extension should show `Contact` and `Lead` events
 
+### 5. Test TikTok Pixel Events
+
+1. Install [TikTok Pixel Helper](https://chrome.google.com/webstore/detail/tiktok-pixel-helper/) Chrome extension
+2. Visit your website
+3. Submit the form
+4. The extension should show `SubmitForm` and `Contact` events
+5. Alternatively, check the browser console for `window.ttq` to verify TikTok Pixel is loaded
+
 ---
 
 ## Code Files Modified
@@ -243,7 +307,7 @@ Open the browser console (F12) and check for these logs:
 
 ## Event Data Flow
 
-```
+```text
 User interacts with form
          ↓
 handleFormStart() fires (on first focus)
@@ -261,9 +325,12 @@ trackContactFormSubmission() called
          ↓
          ├→ GTM dataLayer.push({ event: 'form_submission', ... })
          ├→ GA4 gtag('event', 'form_submit', ...)
-         └→ Meta Pixel
-              ├→ fbq('track', 'Contact', ...)
-              └→ fbq('track', 'Lead', ...)
+         ├→ Meta Pixel
+         │    ├→ fbq('track', 'Contact', ...)
+         │    └→ fbq('track', 'Lead', ...)
+         └→ TikTok Pixel
+              ├→ ttq.track('SubmitForm', ...)
+              └→ ttq.track('Contact', ...)
 ```
 
 ---
@@ -288,6 +355,14 @@ trackContactFormSubmission() called
 - Check that `window.fbq` exists (check in browser console)
 - Use Meta Pixel Helper extension to debug
 - Verify Pixel ID is correct
+
+### TikTok Pixel events not tracking
+
+- Verify TikTok Pixel base code is installed in GTM
+- Check that `window.ttq` exists (check in browser console)
+- Use TikTok Pixel Helper extension to debug
+- Verify TikTok Pixel ID is correct
+- Ensure the pixel is published in TikTok Events Manager
 
 ---
 
@@ -333,7 +408,9 @@ Use this to track when users interact with specific fields.
 ## Support
 
 For issues or questions about this implementation, contact the development team or refer to:
+
 - [GTM Documentation](https://developers.google.com/tag-manager)
 - [GA4 Documentation](https://developers.google.com/analytics/devguides/collection/ga4)
 - [Meta Pixel Documentation](https://developers.facebook.com/docs/meta-pixel)
+- [TikTok Pixel Documentation](https://ads.tiktok.com/help/article/standard-mode-pixel)
 
