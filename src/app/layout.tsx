@@ -15,7 +15,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const gtmId = 'GTM-M7CJMKX6';
+  const gtmId = 'GTM-MBZS5NDV';
   return (
     <html lang="en">
       <GoogleTagManager gtmId={gtmId} />
