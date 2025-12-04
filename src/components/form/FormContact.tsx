@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { Button } from "../ui/button";
 import { roboto, sarabun } from "@/lib/font";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { trackContactFormSubmission, trackFormStart } from "@/lib/analytics";
 
 type Inputs = {
   name: string;
@@ -15,11 +16,27 @@ function FormContact() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
+  const formStartedRef = useRef(false);
+
+  const handleFormStart = () => {
+    if (!formStartedRef.current) {
+      formStartedRef.current = true;
+      trackFormStart('Landing Page Contact Form');
+    }
+  };
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const { name, email, phone } = data;
     if (!name.trim() || !email.trim() || !phone.trim()) {
       return null;
     }
+
+    // Track form submission to GTM, GA4, and Meta Pixel
+    trackContactFormSubmission(
+      { name, email, phone },
+      'Landing Page Contact Form'
+    );
+
     const mailtoLink = `mailto:tu.hoangminh15@gmail.com?subject=Contact Form Submission&body=Name: ${name}%0D%0AEmail: ${email}%0D%0APhone: ${phone}`;
     window.location.href = mailtoLink;
   };
@@ -36,6 +53,7 @@ function FormContact() {
           id="name"
           name="name"
           placeholder="Họ và tên"
+          onFocus={handleFormStart}
           className="text-white h-10 px-4 w-full rounded-sm bg-transparent border border-[#858585] border-solid placeholder:text-[#858585] outline-none focus:border-[rgb(203,202,202)] focus:border-1  transition-all duration-300 ease-in-out"
         />
         {errors.name ? (
@@ -54,6 +72,7 @@ function FormContact() {
           id="email"
           name="email"
           placeholder="Email"
+          onFocus={handleFormStart}
           className="text-white h-10 px-4 w-full rounded-sm bg-transparent border border-[#858585] border-solid placeholder:text-[#858585] outline-none focus:border-[rgb(203,202,202)] focus:border-1  transition-all duration-300 ease-in-out"
         />
         {errors.email ? (
@@ -72,6 +91,7 @@ function FormContact() {
           id="phone"
           name="phone"
           placeholder="Số điện thoại"
+          onFocus={handleFormStart}
           onKeyDown={(e) => {
             if (!/[0-9+]/.test(e.key) && e.key !== "Backspace") {
               e.preventDefault();
