@@ -3,7 +3,6 @@ import React, { useRef } from "react";
 import { Button } from "../ui/button";
 import { roboto, sarabun } from "@/lib/font";
 import { useForm, SubmitHandler } from "react-hook-form";
-// import { trackContactFormSubmission, trackFormStart } from "@/lib/analytics";
 
 type Inputs = {
   name: string;
@@ -21,7 +20,6 @@ function FormContact() {
   const handleFormStart = () => {
     if (!formStartedRef.current) {
       formStartedRef.current = true;
-      // trackFormStart('Landing Page Contact Form');
     }
   };
 
@@ -30,19 +28,6 @@ function FormContact() {
     if (!name.trim() || !email.trim() || !phone.trim()) {
       return null;
     }
-
-    // Track form submission to GTM, GA4, and Meta Pixel
-    // trackContactFormSubmission(
-    //   { name, email, phone },
-    //   'Landing Page Contact Form'
-    // );
-
-    // const mailtoLink = `mailto:tu.hoangminh15@gmail.com?subject=Contact Form Submission&body=Name: ${name}%0D%0AEmail: ${email}%0D%0APhone: ${phone}`;
-
-    // Delay to allow GTM tags to fire
-    // setTimeout(() => {
-    //   window.location.href = mailtoLink;
-    // }, 300);
   };
 
   return (
